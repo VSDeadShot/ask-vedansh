@@ -2,7 +2,7 @@
 
 An interactive portfolio where visitors ask how I build and think, and get a true story from one of my projects.
 
-Live: <URL>
+Live: https://ask-vedansh.vercel.app/
 
 ## How it was built
 
