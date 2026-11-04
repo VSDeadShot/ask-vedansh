@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-paper: #f3efe6;
+  --color-sheet: #faf8f3;
+  --color-ink: #1b1a17;
+  --color-muted: #5f594e;
+  --color-rule: #d6cebd;
+  --color-accent: #c23a17;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  /* faint engineering-notebook grid */
+  background-image:
+    linear-gradient(to right, rgb(27 26 23 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(27 26 23 / 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-sheet);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Headings that receive focus programmatically shouldn't show a ring. */
+[data-answer-heading]:focus {
+  outline: none;
+}
+
+/* ---------- Motion ----------
+   Everything here is CSS-only except the typing effect (components/TypeOut.tsx).
+   Stagger delays are passed per element as --d. All of it is switched off
+   under prefers-reduced-motion at the bottom of this file. */
+
+:root {
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Page load: heading lines, one after another */
+.rise {
+  animation: rise 620ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Page load: shipped cards and sections, straight stagger */
+.fade-up {
+  animation: fade-up 480ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Story opens: the card slides up... */
+.story-enter {
+  animation: slide-up 380ms var(--ease-out) both;
+}
+
+/* ...then each section reveals in order */
+.reveal {
+  animation: fade-up 360ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Text cursor: after "Ask me anything." and while "What I learned" types */
+.caret {
+  display: inline-block;
+  width: 0.08em;
+  min-width: 2px;
+  height: 0.9em;
+  margin-left: 0.08em;
+  vertical-align: -0.08em;
+  background: var(--color-accent);
+}
+
+.caret-blink {
+  animation: blink 1.05s linear infinite;
+  animation-delay: var(--d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .fade-up,
+  .story-enter,
+  .reveal,
+  .caret-blink {
+    animation: none;
+  }
+  * {
+    transition-duration: 0ms !important;
+  }
+}
